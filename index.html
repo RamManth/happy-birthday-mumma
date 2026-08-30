@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mom's 45th Birthday Celebration</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Montserrat:wght@400;500;600;700&amp;family=Great+Vibes&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-bright": "#fff8f7",
+                "tertiary": "#006768",
+                "on-secondary-container": "#65655c",
+                "tertiary-fixed": "#8bf3f5",
+                "primary-fixed": "#ffdad8",
+                "on-error": "#ffffff",
+                "secondary-fixed-dim": "#c9c7bc",
+                "on-error-container": "#93000a",
+                "surface": "#fff8f7",
+                "surface-dim": "#f4d2d1",
+                "on-surface-variant": "#5d3f3e",
+                "surface-container": "#ffe9e7",
+                "primary": "#bb0026",
+                "tertiary-container": "#008284",
+                "on-secondary-fixed": "#1c1c16",
+                "outline": "#926e6d",
+                "primary-container": "#e51836",
+                "outline-variant": "#e7bdbb",
+                "on-primary-fixed-variant": "#92001c",
+                "surface-container-lowest": "#ffffff",
+                "inverse-primary": "#ffb3b1",
+                "deep-onyx": "#1A1A1A",
+                "surface-tint": "#bf0028",
+                "on-tertiary-container": "#f3fffe",
+                "soft-gold": "#FEEBC8",
+                "secondary": "#5f5f56",
+                "primary-fixed-dim": "#ffb3b1",
+                "tertiary-fixed-dim": "#6ed7d8",
+                "background": "#fff8f7",
+                "on-primary-container": "#fffbff",
+                "on-primary-fixed": "#410007",
+                "surface-container-highest": "#fcdbd9",
+                "secondary-fixed": "#e5e3d8",
+                "inverse-surface": "#402b2a",
+                "on-tertiary": "#ffffff",
+                "warm-sand": "#FADFB7",
+                "on-primary": "#ffffff",
+                "surface-container-high": "#ffe1e0",
+                "error": "#ba1a1a",
+                "inverse-on-surface": "#ffedeb",
+                "ruby-vibrant": "#F4273F",
+                "on-surface": "#291716",
+                "on-background": "#291716",
+                "on-secondary-fixed-variant": "#48473f",
+                "cream-canvas": "#FCF9EE",
+                "surface-container-low": "#fff0ef",
+                "surface-variant": "#fcdbd9",
+                "secondary-container": "#e5e3d8",
+                "on-tertiary-fixed-variant": "#004f51",
+                "on-tertiary-fixed": "#002020",
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "gutter": "24px",
+                "unit": "8px",
+                "margin-desktop": "80px",
+                "margin-mobile": "20px",
+                "stack-sm": "16px",
+                "stack-md": "32px",
+                "section-gap": "90px"
+        },
+        "fontFamily": {
+                "display-lg-mobile": ["Playfair Display"],
+                "body-md": ["Montserrat"],
+                "body-lg": ["Montserrat"],
+                "display-lg": ["Playfair Display"],
+                "label-sm": ["Montserrat"],
+                "headline-sm": ["Playfair Display"],
+                "headline-md": ["Playfair Display"],
+                "label-lg": ["Montserrat"],
+                "accent-script": ["Great Vibes"]
+        },
+        "fontSize": {
+                "display-lg-mobile": ["40px", { "lineHeight": "48px", "fontWeight": "700" }],
+                "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                "display-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                "accent-script": ["28px", { "lineHeight": "36px", "fontWeight": "400" }]
+        }
+      },
+    },
+  }
+</script>
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        background-color: theme('colors.background');
+        color: theme('colors.on-background');
+        overflow-x: hidden;
+    }
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .marquee-container {
+        display: flex;
+        overflow: hidden;
+        user-select: none;
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    .marquee-track {
+        display: flex;
+        gap: 1.25rem;
+        width: max-content;
+        animation: marquee 45s linear infinite;
+    }
+    .marquee-container:hover .marquee-track {
+        animation-play-state: paused;
+    }
+    .polaroid-roll {
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease;
+    }
+    .polaroid-roll:hover {
+        transform: scale(1.08) rotate(0deg) !important;
+        z-index: 30;
+        box-shadow: 0 20px 35px rgba(187, 0, 38, 0.2);
+    }
+    .bg-slide-img {
+        transition: opacity 1.8s ease-in-out, transform 6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+</style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex flex-col relative" data-trigger-confetti="true">
+
+<!-- Ambient Rolling Photo Background -->
+<div id="bg-slideshow" class="fixed inset-0 pointer-events-none z-[-10] overflow-hidden">
+  <div id="bg-slide-1" class="bg-slide-img absolute inset-0 bg-cover bg-center opacity-100 scale-100"></div>
+  <div id="bg-slide-2" class="bg-slide-img absolute inset-0 bg-cover bg-center opacity-0 scale-105"></div>
+  <!-- Translucent Luxury Frosted Overlay for pristine text readability -->
+  <div class="absolute inset-0 bg-background/85 backdrop-blur-[14px]"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-surface-bright/70 via-background/85 to-surface-bright/95"></div>
+</div>
+
+<!-- Confetti Canvas -->
+<canvas class="fixed inset-0 pointer-events-none z-[100]" id="confetti-canvas"></canvas>
+
+<main class="flex-grow pt-10 md:pt-16 pb-16 space-y-16 md:space-y-24">
+  <!-- 1. Hero Section -->
+  <section class="px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto relative">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">
+      <div class="order-2 md:order-1 text-center md:text-left space-y-6 z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-soft-gold/60 border border-primary-container/20 text-primary font-label-sm text-xs uppercase tracking-widest font-bold shadow-sm">
+          <span class="material-symbols-outlined text-sm">cake</span> Celebrating 45 Graceful Years
+        </div>
+        <h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface leading-tight">
+          Cheers to 45 Years of Mom
+        </h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+          Celebrating the heart of our family with love, cherished memories, joyful laughter, and timeless elegance.
+        </p>
+        <div class="flex flex-wrap justify-center md:justify-start gap-4 pt-2">
+          <button onclick="launchConfetti(4500)" class="bg-primary-container text-on-primary-container hover:bg-primary font-label-sm text-label-sm py-3.5 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 inline-flex items-center gap-2 font-bold">
+            <span class="material-symbols-outlined text-base">celebration</span> Pop Birthday Confetti!
+          </button>
+          <a href="#tribute-message" class="bg-surface-container-lowest text-primary hover:bg-soft-gold/30 font-label-sm text-label-sm py-3.5 px-6 rounded-full border border-primary/20 shadow-sm transition-all duration-300 inline-flex items-center gap-2 font-bold">
+            <span class="material-symbols-outlined text-base">favorite</span> Read Tribute
+          </a>
+        </div>
+      </div>
+
+      <div class="order-1 md:order-2 relative group">
+        <div class="absolute inset-0 bg-primary-container/25 rounded-full blur-3xl transform -translate-x-4 translate-y-4 group-hover:blur-2xl transition-all duration-500"></div>
+        <div class="relative z-10 p-3 bg-surface-container-lowest/90 backdrop-blur-md rounded-[2.5rem] shadow-2xl border border-outline-variant/40">
+          <img alt="Mom's Portrait in the Snow" class="w-full h-[420px] md:h-[500px] rounded-[2rem] shadow-md object-cover transform transition-transform duration-500 group-hover:scale-[1.01]" src="images/mom-main.jpg"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Continuous Rolling Photo Ribbon of Mumma -->
+  <section class="w-full overflow-hidden py-4">
+    <div class="text-center mb-6">
+      <span class="font-accent-script text-accent-script text-primary text-3xl block">Moments of Joy</span>
+      <p class="font-body-md text-xs sm:text-sm text-on-surface-variant font-medium">Radiant smiles & beautiful memories rolling across the years</p>
+    </div>
+    
+    <div class="marquee-container w-full py-4">
+      <div class="marquee-track">
+        <!-- Loop 1 of Mumma's Photos -->
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-2deg]">
+          <img src="images/mumma_all/mumma_1.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[2deg]">
+          <img src="images/mumma_all/mumma_2.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-1deg]">
+          <img src="images/mumma_all/mumma_3.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[3deg]">
+          <img src="images/mumma_all/mumma_4.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-2deg]">
+          <img src="images/mumma_all/mumma_5.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[1deg]">
+          <img src="images/mumma_all/mumma_6.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-3deg]">
+          <img src="images/mumma_all/mumma_7.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[2deg]">
+          <img src="images/mumma_all/mumma_8.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-1deg]">
+          <img src="images/mumma_all/mumma_9.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[3deg]">
+          <img src="images/mumma_all/mumma_10.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-2deg]">
+          <img src="images/mumma_all/mumma_11.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[1deg]">
+          <img src="images/mumma_all/mumma_12.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-3deg]">
+          <img src="images/mumma_all/mumma_13.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[2deg]">
+          <img src="images/mumma_all/mumma_14.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-1deg]">
+          <img src="images/mumma_all/mumma_15.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[3deg]">
+          <img src="images/mumma_all/mumma_16.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-2deg]">
+          <img src="images/mumma_all/mumma_17.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+
+        <!-- Seamless Duplicate for Infinite Continuous Roll -->
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-2deg]">
+          <img src="images/mumma_all/mumma_1.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[2deg]">
+          <img src="images/mumma_all/mumma_2.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-1deg]">
+          <img src="images/mumma_all/mumma_3.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[3deg]">
+          <img src="images/mumma_all/mumma_4.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-2deg]">
+          <img src="images/mumma_all/mumma_5.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[1deg]">
+          <img src="images/mumma_all/mumma_6.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-3deg]">
+          <img src="images/mumma_all/mumma_7.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[2deg]">
+          <img src="images/mumma_all/mumma_8.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-1deg]">
+          <img src="images/mumma_all/mumma_9.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[3deg]">
+          <img src="images/mumma_all/mumma_10.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-2deg]">
+          <img src="images/mumma_all/mumma_11.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[1deg]">
+          <img src="images/mumma_all/mumma_12.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-3deg]">
+          <img src="images/mumma_all/mumma_13.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[2deg]">
+          <img src="images/mumma_all/mumma_14.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-1deg]">
+          <img src="images/mumma_all/mumma_15.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[3deg]">
+          <img src="images/mumma_all/mumma_16.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+        <div class="polaroid-roll p-2 bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/30 w-44 md:w-52 flex-shrink-0 rotate-[-2deg]">
+          <img src="images/mumma_all/mumma_17.jpg" alt="Mumma Memory" class="w-full h-56 md:h-64 object-cover rounded-xl"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. By The Numbers -->
+  <section class="px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
+    <div class="bg-surface-container-lowest/80 backdrop-blur-md border border-outline-variant/40 rounded-3xl p-8 md:p-12 shadow-sm">
+      <div class="text-center mb-10">
+        <span class="font-accent-script text-accent-script text-primary text-2xl block mb-1">A Lifetime of Joy</span>
+        <h3 class="font-headline-md text-headline-md text-primary font-bold">45 Years by the Numbers</h3>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="bg-surface-container-lowest/90 p-6 rounded-2xl border border-outline-variant/20 shadow-sm hover:scale-105 transition-transform">
+          <span class="material-symbols-outlined text-primary text-4xl mb-2">hourglass_top</span>
+          <div class="font-display-lg text-3xl md:text-4xl text-primary font-bold">45</div>
+          <p class="font-body-md text-xs md:text-sm text-on-surface-variant font-semibold mt-1 uppercase tracking-wider">Glorious Years</p>
+        </div>
+        <div class="bg-surface-container-lowest/90 p-6 rounded-2xl border border-outline-variant/20 shadow-sm hover:scale-105 transition-transform">
+          <span class="material-symbols-outlined text-primary-container text-4xl mb-2">sunny</span>
+          <div class="font-display-lg text-3xl md:text-4xl text-primary font-bold">16,436+</div>
+          <p class="font-body-md text-xs md:text-sm text-on-surface-variant font-semibold mt-1 uppercase tracking-wider">Days of Sunshine</p>
+        </div>
+        <div class="bg-surface-container-lowest/90 p-6 rounded-2xl border border-outline-variant/20 shadow-sm hover:scale-105 transition-transform">
+          <span class="material-symbols-outlined text-tertiary text-4xl mb-2">restaurant</span>
+          <div class="font-display-lg text-3xl md:text-4xl text-primary font-bold">10,000+</div>
+          <p class="font-body-md text-xs md:text-sm text-on-surface-variant font-semibold mt-1 uppercase tracking-wider">Meals Made with Love</p>
+        </div>
+        <div class="bg-surface-container-lowest/90 p-6 rounded-2xl border border-outline-variant/20 shadow-sm hover:scale-105 transition-transform">
+          <span class="material-symbols-outlined text-primary text-4xl mb-2">favorite</span>
+          <div class="font-display-lg text-3xl md:text-4xl text-primary font-bold">∞</p>
+          <p class="font-body-md text-xs md:text-sm text-on-surface-variant font-semibold mt-1 uppercase tracking-wider">Warm Hugs & Laughs</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Heartfelt Tribute Section -->
+  <section id="tribute-message" class="px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto text-center relative">
+    <div class="absolute inset-0 border border-outline-variant/50 rounded-3xl pointer-events-none p-4 md:p-8 m-2 shadow-xl bg-surface-container-lowest/90 backdrop-blur-md -z-10"></div>
+    <div class="py-12 px-6 md:px-14 space-y-6 relative">
+      <span class="material-symbols-outlined text-primary-container text-5xl block opacity-80 animate-bounce" style="animation-duration: 2.5s;" data-icon="favorite">favorite</span>
+      <h3 class="font-headline-md text-3xl md:text-4xl text-primary font-bold">Happy 45th Birthday, Mom!</h3>
+      
+      <div class="space-y-4 font-body-lg text-on-surface-variant leading-relaxed max-w-3xl mx-auto text-base md:text-lg">
+        <p>
+          Our lives are completely incomplete without you. You bring so much happiness and peace to our home every single day.
+        </p>
+        <p>
+          You truly cook the best food in the world. Whatever you make is either good or very good, it is never bad. Thank you for always feeding us with so much love.
+        </p>
+        <p class="font-medium text-on-surface">
+          We pray for your long life and great health. No heart problem is strong enough to break you, because you are the strongest woman we know.
+        </p>
+        <p class="font-semibold text-primary">
+          Thank you for everything you do for us. We love you so much. Have the happiest birthday!
+        </p>
+      </div>
+
+      <div class="pt-6">
+        <span class="font-accent-script text-[42px] text-primary block transform -rotate-2">With all our love ❤️</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-surface-container/90 backdrop-blur-md w-full rounded-t-[3rem] mt-auto border-t border-outline-variant/30">
+  <div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop py-8 gap-4 max-w-7xl mx-auto">
+    <p class="font-body-md text-body-md text-on-secondary-container text-sm text-center md:text-left">With eternal love, for Mom's 45th Milestone Celebration © 2026</p>
+    <a href="#" class="inline-flex items-center gap-1.5 text-primary hover:text-primary-container font-label-sm text-sm font-semibold transition-colors">
+      <span class="material-symbols-outlined text-base">arrow_upward</span> Back to Top
+    </a>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  // Continuous Ambient Background Rolling Photos Engine
+  (function() {
+    const mummaPhotos = [
+      'images/mumma_all/mumma_1.jpg',
+      'images/mumma_all/mumma_2.jpg',
+      'images/mumma_all/mumma_3.jpg',
+      'images/mumma_all/mumma_4.jpg',
+      'images/mumma_all/mumma_5.jpg',
+      'images/mumma_all/mumma_6.jpg',
+      'images/mumma_all/mumma_7.jpg',
+      'images/mumma_all/mumma_8.jpg',
+      'images/mumma_all/mumma_9.jpg',
+      'images/mumma_all/mumma_10.jpg',
+      'images/mumma_all/mumma_11.jpg',
+      'images/mumma_all/mumma_12.jpg',
+      'images/mumma_all/mumma_13.jpg',
+      'images/mumma_all/mumma_14.jpg',
+      'images/mumma_all/mumma_15.jpg',
+      'images/mumma_all/mumma_16.jpg',
+      'images/mumma_all/mumma_17.jpg'
+    ];
+
+    // Preload images
+    mummaPhotos.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+
+    const slide1 = document.getElementById('bg-slide-1');
+    const slide2 = document.getElementById('bg-slide-2');
+    if (!slide1 || !slide2) return;
+
+    let currentIndex = 0;
+    let activeSlide = 1;
+
+    // Initial background
+    slide1.style.backgroundImage = `url('${mummaPhotos[0]}')`;
+
+    function nextBackground() {
+      currentIndex = (currentIndex + 1) % mummaPhotos.length;
+      const nextImgUrl = mummaPhotos[currentIndex];
+
+      if (activeSlide === 1) {
+        slide2.style.backgroundImage = `url('${nextImgUrl}')`;
+        slide2.style.opacity = '1';
+        slide2.style.transform = 'scale(1.02)';
+        slide1.style.opacity = '0';
+        slide1.style.transform = 'scale(1.06)';
+        activeSlide = 2;
+      } else {
+        slide1.style.backgroundImage = `url('${nextImgUrl}')`;
+        slide1.style.opacity = '1';
+        slide1.style.transform = 'scale(1.02)';
+        slide2.style.opacity = '0';
+        slide2.style.transform = 'scale(1.06)';
+        activeSlide = 1;
+      }
+    }
+
+    // Change background photo every 4.5 seconds
+    setInterval(nextBackground, 4500);
+  })();
+</script>
+</body>
+</html>
