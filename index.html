@@ -175,13 +175,13 @@
       <p class="font-body-md text-xs sm:text-sm text-on-surface-variant">Enter the 5-digit family PIN to unlock the celebration page.</p>
     </div>
 
-    <!-- 5 Digit PIN Boxes -->
-    <div class="flex justify-center gap-2 sm:gap-3 py-2">
-      <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center font-display-lg text-2xl font-bold rounded-xl border-2 border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-surface-container-low/50 text-primary outline-none transition-all" data-index="0" autofocus autocomplete="off"/>
-      <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center font-display-lg text-2xl font-bold rounded-xl border-2 border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-surface-container-low/50 text-primary outline-none transition-all" data-index="1" autocomplete="off"/>
-      <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center font-display-lg text-2xl font-bold rounded-xl border-2 border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-surface-container-low/50 text-primary outline-none transition-all" data-index="2" autocomplete="off"/>
-      <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center font-display-lg text-2xl font-bold rounded-xl border-2 border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-surface-container-low/50 text-primary outline-none transition-all" data-index="3" autocomplete="off"/>
-      <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center font-display-lg text-2xl font-bold rounded-xl border-2 border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-surface-container-low/50 text-primary outline-none transition-all" data-index="4" autocomplete="off"/>
+    <!-- 5 Digit PIN Display Indicators (Pure Display, No Virtual Keyboard Popup) -->
+    <div id="pin-display-container" class="flex justify-center gap-2.5 sm:gap-3 py-2 select-none">
+      <div class="pin-digit-box w-12 h-14 rounded-xl border-2 border-outline-variant/60 bg-surface-container-low/50 text-primary flex items-center justify-center font-display-lg text-2xl font-bold transition-all shadow-inner" data-index="0"></div>
+      <div class="pin-digit-box w-12 h-14 rounded-xl border-2 border-outline-variant/60 bg-surface-container-low/50 text-primary flex items-center justify-center font-display-lg text-2xl font-bold transition-all shadow-inner" data-index="1"></div>
+      <div class="pin-digit-box w-12 h-14 rounded-xl border-2 border-outline-variant/60 bg-surface-container-low/50 text-primary flex items-center justify-center font-display-lg text-2xl font-bold transition-all shadow-inner" data-index="2"></div>
+      <div class="pin-digit-box w-12 h-14 rounded-xl border-2 border-outline-variant/60 bg-surface-container-low/50 text-primary flex items-center justify-center font-display-lg text-2xl font-bold transition-all shadow-inner" data-index="3"></div>
+      <div class="pin-digit-box w-12 h-14 rounded-xl border-2 border-outline-variant/60 bg-surface-container-low/50 text-primary flex items-center justify-center font-display-lg text-2xl font-bold transition-all shadow-inner" data-index="4"></div>
     </div>
 
     <!-- Error message -->
@@ -472,7 +472,7 @@
     const CORRECT_PIN = '31881';
     const lockScreen = document.getElementById('pin-lock-screen');
     const pinCard = document.getElementById('pin-card');
-    const pinDigits = document.querySelectorAll('.pin-digit');
+    const pinDigitBoxes = document.querySelectorAll('.pin-digit-box');
     const pinError = document.getElementById('pin-error');
     const unlockBtn = document.getElementById('unlock-btn');
 
@@ -487,14 +487,24 @@
       return;
     }
 
-    function getEnteredPin() {
-      let pin = '';
-      pinDigits.forEach(input => pin += input.value.trim());
-      return pin;
+    let enteredDigits = [];
+
+    function updateDisplay() {
+      pinDigitBoxes.forEach((box, i) => {
+        if (i < enteredDigits.length) {
+          box.innerHTML = '<span class="inline-block w-4 h-4 bg-primary rounded-full transform scale-100 transition-transform"></span>';
+          box.classList.add('border-primary', 'bg-primary-fixed/40', 'ring-2', 'ring-primary/20');
+          box.classList.remove('border-outline-variant/60');
+        } else {
+          box.innerHTML = '';
+          box.classList.remove('border-primary', 'bg-primary-fixed/40', 'ring-2', 'ring-primary/20');
+          box.classList.add('border-outline-variant/60');
+        }
+      });
     }
 
     function checkPin() {
-      const pin = getEnteredPin();
+      const pin = enteredDigits.join('');
       if (pin === CORRECT_PIN) {
         // Success
         pinError.classList.add('hidden');
@@ -523,106 +533,78 @@
         void pinCard.offsetWidth; // Trigger reflow
         pinCard.classList.add('shake');
         
-        // Clear digits and focus first
-        pinDigits.forEach(input => input.value = '');
-        if (pinDigits[0]) pinDigits[0].focus();
+        // Auto-clear after brief delay
+        setTimeout(() => {
+          enteredDigits = [];
+          updateDisplay();
+        }, 450);
       }
     }
 
-    // Input navigation & auto-advance
-    pinDigits.forEach((digit, idx) => {
-      digit.addEventListener('input', (e) => {
-        const val = e.target.value;
-        if (val.length >= 1) {
-          e.target.value = val.slice(-1);
-          if (idx < pinDigits.length - 1) {
-            pinDigits[idx + 1].focus();
-          } else if (idx === pinDigits.length - 1) {
-            setTimeout(checkPin, 100);
-          }
+    function addDigit(digit) {
+      if (enteredDigits.length < 5) {
+        enteredDigits.push(digit);
+        updateDisplay();
+        pinError.classList.add('hidden');
+        if (enteredDigits.length === 5) {
+          setTimeout(checkPin, 120);
         }
-      });
+      }
+    }
 
-      digit.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace') {
-          if (!digit.value && idx > 0) {
-            pinDigits[idx - 1].focus();
-          }
-        } else if (e.key === 'ArrowLeft' && idx > 0) {
-          pinDigits[idx - 1].focus();
-        } else if (e.key === 'ArrowRight' && idx < pinDigits.length - 1) {
-          pinDigits[idx + 1].focus();
-        } else if (e.key === 'Enter') {
-          checkPin();
-        }
-      });
+    function removeDigit() {
+      if (enteredDigits.length > 0) {
+        enteredDigits.pop();
+        updateDisplay();
+        pinError.classList.add('hidden');
+      }
+    }
 
-      // Handle paste of full PIN
-      digit.addEventListener('paste', (e) => {
-        e.preventDefault();
-        const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim();
-        if (/^\d{5}$/.test(pasteData)) {
-          pasteData.split('').forEach((char, i) => {
-            if (pinDigits[i]) pinDigits[i].value = char;
-          });
-          setTimeout(checkPin, 100);
-        }
-      });
-    });
-
-    if (unlockBtn) {
-      unlockBtn.addEventListener('click', checkPin);
+    function clearDigits() {
+      enteredDigits = [];
+      updateDisplay();
+      pinError.classList.add('hidden');
     }
 
     // Keypad On-Screen Button Click Handlers
     const keypadBtns = document.querySelectorAll('.keypad-btn');
     keypadBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const key = btn.dataset.key;
         if (key === 'clear') {
-          pinDigits.forEach(input => input.value = '');
-          pinError.classList.add('hidden');
-          if (pinDigits[0]) pinDigits[0].focus();
+          clearDigits();
         } else if (key === 'backspace') {
-          // Find last filled digit
-          let lastFilled = -1;
-          for (let i = pinDigits.length - 1; i >= 0; i--) {
-            if (pinDigits[i].value !== '') {
-              lastFilled = i;
-              break;
-            }
-          }
-          if (lastFilled >= 0) {
-            pinDigits[lastFilled].value = '';
-            pinDigits[lastFilled].focus();
-          } else {
-            if (pinDigits[0]) pinDigits[0].focus();
-          }
+          removeDigit();
         } else if (/^\d$/.test(key)) {
-          // Find first empty digit
-          let emptyIdx = -1;
-          for (let i = 0; i < pinDigits.length; i++) {
-            if (pinDigits[i].value === '') {
-              emptyIdx = i;
-              break;
-            }
-          }
-          if (emptyIdx !== -1) {
-            pinDigits[emptyIdx].value = key;
-            if (emptyIdx < pinDigits.length - 1) {
-              pinDigits[emptyIdx + 1].focus();
-            } else if (emptyIdx === pinDigits.length - 1) {
-              setTimeout(checkPin, 100);
-            }
-          }
+          addDigit(key);
         }
       });
     });
 
-    // Auto-focus first digit
-    setTimeout(() => {
-      if (pinDigits[0]) pinDigits[0].focus();
-    }, 300);
+    if (unlockBtn) {
+      unlockBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        checkPin();
+      });
+    }
+
+    // Physical Keyboard support (optional for desktop laptops)
+    window.addEventListener('keydown', (e) => {
+      if (lockScreen.style.display === 'none' || lockScreen.style.opacity === '0') return;
+
+      if (/^\d$/.test(e.key)) {
+        addDigit(e.key);
+      } else if (e.key === 'Backspace') {
+        removeDigit();
+      } else if (e.key === 'Escape') {
+        clearDigits();
+      } else if (e.key === 'Enter') {
+        checkPin();
+      }
+    });
+
+    updateDisplay();
   })();
 </script>
 </body>
