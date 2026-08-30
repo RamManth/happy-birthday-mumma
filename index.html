@@ -189,6 +189,24 @@
       <span class="material-symbols-outlined text-sm">error</span> Incorrect PIN. Please try again!
     </div>
 
+    <!-- Interactive On-Screen Numeric Keypad -->
+    <div class="grid grid-cols-3 gap-2 sm:gap-2.5 max-w-[260px] mx-auto pt-1 pb-1">
+      <button type="button" data-key="1" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/70 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-on-surface font-headline-md text-xl font-bold shadow-sm transition-all flex items-center justify-center">1</button>
+      <button type="button" data-key="2" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/70 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-on-surface font-headline-md text-xl font-bold shadow-sm transition-all flex items-center justify-center">2</button>
+      <button type="button" data-key="3" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/70 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-on-surface font-headline-md text-xl font-bold shadow-sm transition-all flex items-center justify-center">3</button>
+      <button type="button" data-key="4" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/70 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-on-surface font-headline-md text-xl font-bold shadow-sm transition-all flex items-center justify-center">4</button>
+      <button type="button" data-key="5" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/70 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-on-surface font-headline-md text-xl font-bold shadow-sm transition-all flex items-center justify-center">5</button>
+      <button type="button" data-key="6" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/70 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-on-surface font-headline-md text-xl font-bold shadow-sm transition-all flex items-center justify-center">6</button>
+      <button type="button" data-key="7" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/70 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-on-surface font-headline-md text-xl font-bold shadow-sm transition-all flex items-center justify-center">7</button>
+      <button type="button" data-key="8" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/70 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-on-surface font-headline-md text-xl font-bold shadow-sm transition-all flex items-center justify-center">8</button>
+      <button type="button" data-key="9" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/70 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-on-surface font-headline-md text-xl font-bold shadow-sm transition-all flex items-center justify-center">9</button>
+      <button type="button" data-key="clear" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/50 hover:bg-error-container/20 active:scale-95 border border-outline-variant/30 text-primary-container font-label-sm text-xs font-bold shadow-sm transition-all flex items-center justify-center">Clear</button>
+      <button type="button" data-key="0" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/70 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-on-surface font-headline-md text-xl font-bold shadow-sm transition-all flex items-center justify-center">0</button>
+      <button type="button" data-key="backspace" class="keypad-btn h-12 rounded-2xl bg-surface-container-low/50 hover:bg-primary-container/10 active:scale-95 border border-outline-variant/30 text-primary font-bold shadow-sm transition-all flex items-center justify-center">
+        <span class="material-symbols-outlined text-xl">backspace</span>
+      </button>
+    </div>
+
     <!-- Unlock Button -->
     <button id="unlock-btn" class="w-full py-3.5 px-6 rounded-full bg-primary-container hover:bg-primary text-white font-label-sm text-sm font-bold shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 tracking-wide uppercase">
       <span>Unlock Celebration</span>
@@ -560,6 +578,51 @@
     if (unlockBtn) {
       unlockBtn.addEventListener('click', checkPin);
     }
+
+    // Keypad On-Screen Button Click Handlers
+    const keypadBtns = document.querySelectorAll('.keypad-btn');
+    keypadBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        if (key === 'clear') {
+          pinDigits.forEach(input => input.value = '');
+          pinError.classList.add('hidden');
+          if (pinDigits[0]) pinDigits[0].focus();
+        } else if (key === 'backspace') {
+          // Find last filled digit
+          let lastFilled = -1;
+          for (let i = pinDigits.length - 1; i >= 0; i--) {
+            if (pinDigits[i].value !== '') {
+              lastFilled = i;
+              break;
+            }
+          }
+          if (lastFilled >= 0) {
+            pinDigits[lastFilled].value = '';
+            pinDigits[lastFilled].focus();
+          } else {
+            if (pinDigits[0]) pinDigits[0].focus();
+          }
+        } else if (/^\d$/.test(key)) {
+          // Find first empty digit
+          let emptyIdx = -1;
+          for (let i = 0; i < pinDigits.length; i++) {
+            if (pinDigits[i].value === '') {
+              emptyIdx = i;
+              break;
+            }
+          }
+          if (emptyIdx !== -1) {
+            pinDigits[emptyIdx].value = key;
+            if (emptyIdx < pinDigits.length - 1) {
+              pinDigits[emptyIdx + 1].focus();
+            } else if (emptyIdx === pinDigits.length - 1) {
+              setTimeout(checkPin, 100);
+            }
+          }
+        }
+      });
+    });
 
     // Auto-focus first digit
     setTimeout(() => {
