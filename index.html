@@ -147,9 +147,55 @@
     .bg-slide-img {
         transition: opacity 1.8s ease-in-out, transform 6s cubic-bezier(0.25, 1, 0.5, 1);
     }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-8px); }
+        40%, 80% { transform: translateX(8px); }
+    }
+    .shake {
+        animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
 </style>
 </head>
-<body class="font-body-md text-body-md antialiased min-h-screen flex flex-col relative" data-trigger-confetti="true">
+<body class="font-body-md text-body-md antialiased min-h-screen flex flex-col relative" data-trigger-confetti="false">
+
+<!-- PIN Lock Screen Overlay -->
+<div id="pin-lock-screen" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-background/95 backdrop-blur-2xl transition-all duration-700">
+  <div id="pin-card" class="bg-surface-container-lowest/95 border border-primary-container/30 rounded-3xl p-7 sm:p-10 max-w-md w-full shadow-2xl text-center space-y-6 relative overflow-hidden backdrop-blur-md">
+    <div class="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+    <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-soft-gold/40 rounded-full blur-2xl pointer-events-none"></div>
+    
+    <div class="w-16 h-16 mx-auto rounded-2xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
+      <span class="material-symbols-outlined text-3xl">lock</span>
+    </div>
+    
+    <div class="space-y-2">
+      <span class="font-accent-script text-accent-script text-primary text-3xl block">Mom's 45th Celebration</span>
+      <h2 class="font-display-lg text-2xl sm:text-3xl text-on-surface font-bold">Secret Access PIN</h2>
+      <p class="font-body-md text-xs sm:text-sm text-on-surface-variant">Enter the 5-digit family PIN to unlock the celebration page.</p>
+    </div>
+
+    <!-- 5 Digit PIN Boxes -->
+    <div class="flex justify-center gap-2 sm:gap-3 py-2">
+      <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center font-display-lg text-2xl font-bold rounded-xl border-2 border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-surface-container-low/50 text-primary outline-none transition-all" data-index="0" autofocus autocomplete="off"/>
+      <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center font-display-lg text-2xl font-bold rounded-xl border-2 border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-surface-container-low/50 text-primary outline-none transition-all" data-index="1" autocomplete="off"/>
+      <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center font-display-lg text-2xl font-bold rounded-xl border-2 border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-surface-container-low/50 text-primary outline-none transition-all" data-index="2" autocomplete="off"/>
+      <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center font-display-lg text-2xl font-bold rounded-xl border-2 border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-surface-container-low/50 text-primary outline-none transition-all" data-index="3" autocomplete="off"/>
+      <input type="password" inputmode="numeric" maxlength="1" class="pin-digit w-12 h-14 text-center font-display-lg text-2xl font-bold rounded-xl border-2 border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 bg-surface-container-low/50 text-primary outline-none transition-all" data-index="4" autocomplete="off"/>
+    </div>
+
+    <!-- Error message -->
+    <div id="pin-error" class="text-primary-container text-xs font-semibold hidden flex items-center justify-center gap-1.5 animate-pulse">
+      <span class="material-symbols-outlined text-sm">error</span> Incorrect PIN. Please try again!
+    </div>
+
+    <!-- Unlock Button -->
+    <button id="unlock-btn" class="w-full py-3.5 px-6 rounded-full bg-primary-container hover:bg-primary text-white font-label-sm text-sm font-bold shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 tracking-wide uppercase">
+      <span>Unlock Celebration</span>
+      <span class="material-symbols-outlined text-base">key</span>
+    </button>
+  </div>
+</div>
 
 <!-- Ambient Rolling Photo Background -->
 <div id="bg-slideshow" class="fixed inset-0 pointer-events-none z-[-10] overflow-hidden">
@@ -448,6 +494,119 @@
 
     // Change background photo every 4.5 seconds
     setInterval(nextBackground, 4500);
+  })();
+
+  // Secret PIN Lock Screen Logic (PIN: 31881)
+  (function() {
+    const CORRECT_PIN = '31881';
+    const lockScreen = document.getElementById('pin-lock-screen');
+    const pinCard = document.getElementById('pin-card');
+    const pinDigits = document.querySelectorAll('.pin-digit');
+    const pinError = document.getElementById('pin-error');
+    const unlockBtn = document.getElementById('unlock-btn');
+
+    if (!lockScreen) return;
+
+    // Check if already unlocked in this session
+    if (sessionStorage.getItem('mumma_45_unlocked') === 'true') {
+      lockScreen.style.display = 'none';
+      if (typeof launchConfetti === 'function') {
+        launchConfetti(3500);
+      }
+      return;
+    }
+
+    function getEnteredPin() {
+      let pin = '';
+      pinDigits.forEach(input => pin += input.value.trim());
+      return pin;
+    }
+
+    function checkPin() {
+      const pin = getEnteredPin();
+      if (pin === CORRECT_PIN) {
+        // Success
+        pinError.classList.add('hidden');
+        sessionStorage.setItem('mumma_45_unlocked', 'true');
+        
+        // Success animation
+        pinCard.style.transition = 'all 0.5s ease';
+        pinCard.style.transform = 'scale(1.05)';
+        pinCard.style.opacity = '0';
+        
+        setTimeout(() => {
+          lockScreen.style.opacity = '0';
+          lockScreen.style.pointerEvents = 'none';
+          setTimeout(() => {
+            lockScreen.style.display = 'none';
+          }, 700);
+        }, 200);
+
+        if (typeof launchConfetti === 'function') {
+          launchConfetti(5000);
+        }
+      } else {
+        // Error
+        pinError.classList.remove('hidden');
+        pinCard.classList.remove('shake');
+        void pinCard.offsetWidth; // Trigger reflow
+        pinCard.classList.add('shake');
+        
+        // Clear digits and focus first
+        pinDigits.forEach(input => input.value = '');
+        if (pinDigits[0]) pinDigits[0].focus();
+      }
+    }
+
+    // Input navigation & auto-advance
+    pinDigits.forEach((digit, idx) => {
+      digit.addEventListener('input', (e) => {
+        const val = e.target.value;
+        if (val.length >= 1) {
+          e.target.value = val.slice(-1);
+          if (idx < pinDigits.length - 1) {
+            pinDigits[idx + 1].focus();
+          } else if (idx === pinDigits.length - 1) {
+            setTimeout(checkPin, 100);
+          }
+        }
+      });
+
+      digit.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace') {
+          if (!digit.value && idx > 0) {
+            pinDigits[idx - 1].focus();
+          }
+        } else if (e.key === 'ArrowLeft' && idx > 0) {
+          pinDigits[idx - 1].focus();
+        } else if (e.key === 'ArrowRight' && idx < pinDigits.length - 1) {
+          pinDigits[idx + 1].focus();
+        } else if (e.key === 'Enter') {
+          checkPin();
+        }
+      });
+
+      // Handle paste of full PIN
+      digit.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim();
+        if (/^\d{5}$/.test(pasteData)) {
+          pasteData.split('').forEach((char, i) => {
+            if (pinDigits[i]) pinDigits[i].value = char;
+          });
+          setTimeout(checkPin, 100);
+        }
+      });
+    });
+
+    if (unlockBtn) {
+      unlockBtn.addEventListener('click', checkPin);
+    }
+
+    // Auto-focus first digit
+    setTimeout(() => {
+      if (pinDigits[0]) pinDigits[0].focus();
+    }, 300);
   })();
 </script>
 </body>
